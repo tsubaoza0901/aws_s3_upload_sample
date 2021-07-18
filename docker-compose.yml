@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    container_name: aws-s3-upload-sample
+    volumes:
+      - '.:/go/app'
+    ports:
+      - '9111:9111'
+    tty: true
+    stdin_open: true
