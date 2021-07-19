@@ -14,13 +14,9 @@ func main() {
 	sess, err := session.NewSessionWithOptions(session.Options{
 		Config: aws.Config{
 			Region: aws.String("ap-northeast-1"),
-			Credentials: credentials.NewStaticCredentials(
-				"your accsess id", // AWS ACCESS KEY（localstack使用時は任意の文字列でOK）
-				"your sercret id", // AWS SECRET KEY（localstack使用時は任意の文字列でOK）
-				"token",      // Token ※Tokenを使用していない場合は空文字を設定
-			),
-			Endpoint:         aws.String("http://localstack:4566"), // ★localstack利用時は必要
-			S3ForcePathStyle: aws.Bool(true),                       // ★localstack利用時は必要
+			Credentials: credentials.NewEnvCredentials(),
+			// Endpoint:         aws.String("http://localstack:4566"), // ★localstack利用時は必要
+			// S3ForcePathStyle: aws.Bool(true),                       // ★localstack利用時は必要
 		},
 	})
 	if err != nil {
@@ -35,8 +31,8 @@ func main() {
 	}
 	defer file.Close()
 
-	bucketName := "sample-bucket"
-	objectKey := "sample-dir/sample.txt"
+	bucketName := "teamup-t"
+	objectKey := "user-image/sample.txt"
 
 	// Uploaderを作成し、ローカルファイルをアップロード
 	uploader := s3manager.NewUploader(sess)
