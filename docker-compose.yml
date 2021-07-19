@@ -12,3 +12,17 @@ services:
       - '9111:9111'
     tty: true
     stdin_open: true
+    links:
+      - localstack
+  localstack:
+    image: localstack/localstack:0.11.3
+    container_name: localstack
+    ports:
+      - 4566:4566
+      - 6000:6000
+    environment:
+      - DEFAULT_REGION=ap-northeast-1
+      - SERVICES=s3
+      - DATA_DIR=/tmp/localstack/data
+    volumes:
+      - /Users/t.ozawa/.localstack:/tmp/localstack/
