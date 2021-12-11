@@ -66,3 +66,12 @@ root@fe385569a625:/go/src/app/server_side# go run main.go
 ### ② S3に保存した画像の
 ・Method：GET   
 ・Endpoint：http://127.0.0.1:9111/image/:id   
+
+# その他
+使用する際にはルート直下に「.env」ファイルを作成し、以下の内容を追加する必要あり。
+
+```
+BUCKET_NAME=
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+```
