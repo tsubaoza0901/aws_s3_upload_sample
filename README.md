@@ -48,3 +48,21 @@ root@fe385569a625:/go/src/app/server_side# goose up
 ```
 root@fe385569a625:/go/src/app/server_side# go run main.go
 ```
+
+## 5.使用可能なエンドポイント
+
+### ① S3への画像保存
+・Method：POST   
+・Endpoint：http://127.0.0.1:9111/image   
+・Request Body：
+
+```
+{
+    "encoded_url": "Please set encoded Image URL",
+    "file_name": "Please set Image FileName"
+}
+```
+
+### ② S3に保存した画像の
+・Method：GET   
+・Endpoint：http://127.0.0.1:9111/image/:id   
