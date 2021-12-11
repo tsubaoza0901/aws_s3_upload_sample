@@ -10,15 +10,23 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 )
 
-func main() {
+func NewSession() (*session.Session, error) {
 	sess, err := session.NewSessionWithOptions(session.Options{
 		Config: aws.Config{
 			Region: aws.String("ap-northeast-1"),
-			Credentials: credentials.NewEnvCredentials(),
-			// Endpoint:         aws.String("http://localstack:4566"), // ★localstack利用時は必要
-			// S3ForcePathStyle: aws.Bool(true),                       // ★localstack利用時は必要
+			Credentials: credentials.NewStaticCredentials(
+				"your accsess id", // AWS ACCESS KEY
+				"your sercret id", // AWS SECRET KEY
+				"token",           // Token ※Tokenを使用していない場合は空文字を設定
+			),
 		},
 	})
+	return sess, err
+}
+
+func main() {
+	// sessionの作成
+	sess, err := NewSession()
 	if err != nil {
 		panic(err)
 	}

@@ -1,10 +1,32 @@
 version: '3.8'
 
+volumes:
+  db-init:
+  db-data:
+
 services:
+  db:
+    build:
+      context: ./
+      dockerfile: ./docker_files/mysql/Dockerfile
+    container_name: aws-s3-upload-sample-db
+    restart: on-failure:5
+    ports:
+      - '3400:3306'
+    environment:
+      # 今回は勉強用のためセキュリティ無視で直書き
+      MYSQL_ROOT_PASSWORD: 'root'
+    tty: true
+    volumes:
+      - db-init:/docker-entrypoint-initdb.d
+      - db-data:/var/lib/mysql
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --skip-character-set-client-handshake
+    networks:
+      - aws_s3_upload_sample_net
   backend:
     build:
       context: ./
-      dockerfile: ./Dockerfile
+      dockerfile:  ./docker_files/go/Dockerfile
     container_name: aws-s3-upload-sample
     volumes:
       - '.:/go/app'
@@ -12,8 +34,14 @@ services:
       - '9111:9111'
     tty: true
     stdin_open: true
-    networks:
-      - aws_localstack_sample_s3-localstack
     environment:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+    networks:
+      - aws_s3_upload_sample_net
+networks:
+  default:
+    external:
+      name: bridge
+  aws_s3_upload_sample_net:
+    name: docker.internal

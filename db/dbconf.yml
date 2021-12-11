@@ -1,0 +1,3 @@
+development:
+  driver: mymysql
+  open: tcp:db:3306*awss3uploadsample/root/root
