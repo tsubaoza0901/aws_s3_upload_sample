@@ -190,6 +190,8 @@ func main() {
 	defer sqlDB.Close()
 
 	e := echo.New()
+	
+	InitMiddleware(e)
 
 	u := new(Image)
 	InitRouting(e, u)
